@@ -4,6 +4,9 @@ const cors = require("cors");
 const usersRouter = require('./users/users-router');
 const authRouter = require('./auth/auth-router');
 
+const session = require('express-session');
+
+
 /**
   Do what needs to be done to support sessions with the `express-session` package!
   To respect users' privacy, do NOT send them a cookie unless they log in.
@@ -18,6 +21,20 @@ const authRouter = require('./auth/auth-router');
  */
 
 const server = express();
+
+const sessionConfig = {
+  name: 'chocolatechip',
+  secret: 'shh',
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24,
+    secure: false,
+    httpOnly: true,
+  },
+  resave: false,
+  saveUnitialized: false,
+};
+
+server.use(session(sessionConfig));
 
 server.use(helmet());
 server.use(express.json());
